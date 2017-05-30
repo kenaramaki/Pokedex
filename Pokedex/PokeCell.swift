@@ -15,7 +15,16 @@ class PokeCell: UICollectionViewCell {
     
     var pokemon: Pokemon!
     
-    func confifureCell(pokemon: Pokemon) {
+    // Explanation of init coder aDecoder ~> https://stackoverflow.com/questions/38386339/what-exactly-is-init-coder-adecoder
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        layer.cornerRadius = 5.0
+        
+    }
+    
+    
+    func configureCell(pokemon: Pokemon) {
         
         self.pokemon = pokemon
         
