@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // MARK: - Outlets
     @IBOutlet weak var collection: UICollectionView!
     
+    
+    
     // MARK: - Properties
     var pokemon = [Pokemon]()
+    var musicPlayer: AVAudioPlayer!
+    
+    
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -25,12 +31,36 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
         
         parsePokemonCVS()
+        initAudio()
         
     }
 
     
+    
+    
     // MARK: - Methods
 
+    
+    func initAudio(){
+        
+        let path = Bundle.main.path(forResource: "music", ofType: "mp3")!
+        
+        do {
+            
+            musicPlayer = try AVAudioPlayer(contentsOf: URL(string: path)!)
+            musicPlayer.prepareToPlay()
+            musicPlayer.numberOfLoops = -1
+            musicPlayer.play()
+            
+        } catch let err as NSError {
+            
+            print(err.debugDescription)
+            
+        }
+        
+    }
+    
+    
     func parsePokemonCVS(){
         
         let path = Bundle.main.path(forResource: "pokemon", ofType: "csv")!
@@ -60,6 +90,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         
     }
+    
+    
     
     
     // MARK: - UICollectionView Methods
@@ -107,6 +139,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     // MARK: - Actions
+    @IBAction func musicBtnPressed(_ sender: UIButton) {
+        
+        if musicPlayer.isPlaying {
+            
+            musicPlayer.pause()
+            sender.alpha = 0.3
+            
+        } else {
+            
+            musicPlayer.play()
+            sender.alpha = 1.0
+            
+        }
+        
+    }
 
 }
 
