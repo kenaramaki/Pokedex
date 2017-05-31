@@ -14,7 +14,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var collection: UICollectionView!
     
     // MARK: - Properties
-    
+    var pokemon = [Pokemon]()
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -22,21 +22,54 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
         collection.dataSource = self
         collection.delegate = self
+    
         
-        
-        
-        
+        parsePokemonCVS()
         
     }
 
+    
+    // MARK: - Methods
+
+    func parsePokemonCVS(){
+        
+        let path = Bundle.main.path(forResource: "pokemon", ofType: "csv")!
+        
+        do {
+            
+            let csv = try CSV(contentsOfURL: path)
+            let rows = csv.rows
+            print(rows)
+
+            for row in rows {
+                
+                let pokeId = Int(row["id"]!)!
+                let name = row["identifier"]!
+                
+                let poke = Pokemon(name: name, pokedexId: pokeId)
+                pokemon.append(poke)
+                
+            }
+            
+            
+        } catch let err as NSError {
+            
+            print(err.debugDescription)
+            
+        }
+        
+        
+    }
+    
+    
     // MARK: - UICollectionView Methods
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokeCell", for: indexPath) as? PokeCell {
             
-            let pokemon = Pokemon(name: "Pokemon", pokedexId: indexPath.row)
-            cell.configureCell(pokemon: pokemon)
+            let poke = pokemon[indexPath.row]
+            cell.configureCell(poke)
             
             return cell
             
@@ -57,7 +90,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 30
+        return pokemon.count
         
     }
     
@@ -71,8 +104,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return CGSize(width: 100, height: 100)
     }
     
-    
-    // MARK: - Methods
     
     
     // MARK: - Actions
