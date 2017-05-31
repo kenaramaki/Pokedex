@@ -9,17 +9,18 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
 
     // MARK: - Outlets
     @IBOutlet weak var collection: UICollectionView!
-    
+    @IBOutlet weak var searchBar: UISearchBar!
     
     
     // MARK: - Properties
     var pokemon = [Pokemon]()
+    var filteredPokemon = [Pokemon]()
     var musicPlayer: AVAudioPlayer!
-    
+    var inSearchMode = false
     
     
     // MARK: - View Life Cycle
@@ -28,14 +29,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
         collection.dataSource = self
         collection.delegate = self
+        searchBar.delegate = self
     
+        searchBar.returnKeyType = UIReturnKeyType.done
         
         parsePokemonCVS()
         initAudio()
         
     }
 
-    
     
     
     // MARK: - Methods
@@ -91,7 +93,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     
-    
+    // this method hides the keyboard when the user taps in other view such as the top view where the Pokédex label goes
+    // does not work when tapping  in the collection view
+    // TODO: find out how to hide the keyboard when tapping in the collection view
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //self.view.endEditing(true)
+        searchBar.resignFirstResponder()
+    }
     
     
     // MARK: - UICollectionView Methods
@@ -100,8 +108,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokeCell", for: indexPath) as? PokeCell {
             
-            let poke = pokemon[indexPath.row]
-            cell.configureCell(poke)
+            let poke: Pokemon!
+            
+            if inSearchMode {
+                poke = filteredPokemon[indexPath.row]
+                cell.configureCell(poke)
+            } else {
+                poke = pokemon[indexPath.row]
+                cell.configureCell(poke)
+            }
+            
+            
             
             return cell
             
@@ -122,6 +139,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+        if inSearchMode {
+            
+            return filteredPokemon.count
+            
+        }
+        
         return pokemon.count
         
     }
@@ -133,9 +156,52 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         return CGSize(width: 100, height: 100)
+        
     }
     
+    
+    // MARK: - UISearchBar Methods
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        view.endEditing(true)
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchBar.text == nil || searchBar.text == "" {
+            
+            
+            inSearchMode = false
+            collection.reloadData()
+            
+            // hide the keyboard after deleting all the characters
+            //view.endEditing(true)
+            searchBar.perform(#selector(self.resignFirstResponder), with: nil, afterDelay: 0.1)
+            
+        } else {
+            
+            inSearchMode = true
+            
+            let lower = searchBar.text!.lowercased()
+            
+            filteredPokemon = pokemon.filter({$0.name.range(of: lower) != nil})
+            collection.reloadData()
+            
+        }
+        
+    }
+    
+    
+    // MARK: - UIScrollView Methods
+    
+    // This method hides the keyboard as the user will start scrolling the view
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.endEditing(true)
+    }
     
     
     // MARK: - Actions

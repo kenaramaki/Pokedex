@@ -60,14 +60,14 @@
                                     <constraint firstAttribute="trailing" secondItem="5hO-aS-Pms" secondAttribute="trailing" constant="8" id="yB6-xU-4YS"/>
                                 </constraints>
                             </view>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="I6y-6J-Oc0">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Pokémon" translatesAutoresizingMaskIntoConstraints="NO" id="I6y-6J-Oc0">
                                 <rect key="frame" x="0.0" y="65" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="sIz-ho-RfX"/>
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="2MP-mi-hyH">
+                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="2MP-mi-hyH">
                                 <rect key="frame" x="0.0" y="109" width="320" height="459"/>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cb3-u2-vQq">
@@ -140,6 +140,7 @@
                     </view>
                     <connections>
                         <outlet property="collection" destination="cb3-u2-vQq" id="zIC-30-hRV"/>
+                        <outlet property="searchBar" destination="I6y-6J-Oc0" id="lnc-XF-XUh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
