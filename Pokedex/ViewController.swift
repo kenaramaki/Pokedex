@@ -36,12 +36,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         parsePokemonCVS()
         initAudio()
         
+        // Gesture tha calls the method dismissKeyboard
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
+        //Uncomment the line below if you want the tap not to interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        
+        
     }
 
     
     
+    
     // MARK: - Methods
-
+    
+    // Method to dismiss the keyboard when touching outside of it
+    func dismissKeyboard(){
+        //view.endEditing(true)
+        searchBar.resignFirstResponder()
+    }
+    
     
     func initAudio(){
         
@@ -91,14 +105,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         
-    }
-    
-    // this method hides the keyboard when the user taps in other view such as the top view where the Pokédex label goes
-    // does not work when tapping  in the collection view
-    // TODO: find out how to hide the keyboard when tapping in the collection view
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //self.view.endEditing(true)
-        searchBar.resignFirstResponder()
     }
     
     
