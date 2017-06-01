@@ -172,6 +172,7 @@
                                         </constraints>
                                         <state key="normal" image="back"/>
                                         <connections>
+                                            <action selector="backBtnPressed:" destination="vxR-c4-Owb" eventType="touchUpInside" id="yQb-nI-OaB"/>
                                             <action selector="musicBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tDu-Kp-3ki"/>
                                         </connections>
                                     </button>
@@ -450,7 +451,18 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="attackLbl" destination="p2v-un-NiM" id="BvX-aX-dMD"/>
+                        <outlet property="currentEvoImg" destination="YTd-NY-nhD" id="lVQ-4J-9Xj"/>
+                        <outlet property="defenseLbl" destination="TjL-9O-fCs" id="Bqr-2S-tpn"/>
+                        <outlet property="descriptionLbl" destination="GEV-PU-HOa" id="s7T-7y-LL8"/>
+                        <outlet property="evoLbl" destination="tpv-3F-Ali" id="Y5k-x6-tfr"/>
+                        <outlet property="heightLbl" destination="goH-5Z-qoY" id="7WZ-4N-OK8"/>
+                        <outlet property="mainImg" destination="byD-Pi-Mxg" id="HR4-be-gk8"/>
                         <outlet property="nameLbl" destination="FL1-6x-8NU" id="pO6-wG-ScB"/>
+                        <outlet property="nextEvoImg" destination="Zst-Rs-uQB" id="GLB-x7-xn7"/>
+                        <outlet property="pokedexLbl" destination="OfZ-Vw-8q8" id="2vm-Lw-AhH"/>
+                        <outlet property="typeLbl" destination="tY3-sK-UCM" id="KIn-AV-lX2"/>
+                        <outlet property="weightLbl" destination="phj-oE-6Bb" id="ISP-Mu-n6d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KBY-DG-lbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
