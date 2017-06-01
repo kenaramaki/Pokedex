@@ -39,7 +39,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Gesture tha calls the method dismissKeyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
         //Uncomment the line below if you want the tap not to interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
         
@@ -108,6 +108,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "PokemonDetailVC" {
+            
+            if let detailsVC = segue.destination as? PokemonDetailVC {
+                
+                if let poke = sender as? Pokemon {
+                    
+                    detailsVC.pokemon = poke
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    
     // MARK: - UICollectionView Methods
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -137,6 +156,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        var poke: Pokemon!
+        
+        if inSearchMode {
+            
+            poke = filteredPokemon[indexPath.row]
+            
+        } else {
+            
+            poke = pokemon[indexPath.row]
+            
+        }
+        
+        performSegue(withIdentifier: "PokemonDetailVC", sender: poke)
         
         
         
